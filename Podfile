@@ -4,5 +4,5 @@ platform :ios, '9.0'
 
 target 'RyfWeather' do
  pod 'AMapLocation' 
-
+ pod 'CoreXLSX'
 end

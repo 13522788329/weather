@@ -1,0 +1,6 @@
+module Pods_RyfWeather {
+  umbrella header "Pods-RyfWeather-umbrella.h"
+
+  export *
+  module * { export * }
+}

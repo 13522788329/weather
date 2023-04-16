@@ -23,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.backgroundColor = UIColor.white
             self.window = window
             let weatherListController: WeatherListController = WeatherListController.init()
-            self.window?.rootViewController = weatherListController
+            let weatherNavigationController: WeatherNavigationController = WeatherNavigationController.init(rootViewController: weatherListController)
+            self.window?.rootViewController = weatherNavigationController
             self.window?.makeKeyAndVisible()
         }
     }

@@ -18,6 +18,8 @@
 		CD4C08BD29EBEE6C00880160 /* RyfWeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4C08BC29EBEE6C00880160 /* RyfWeatherUITests.swift */; };
 		CD4C08BF29EBEE6C00880160 /* RyfWeatherUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4C08BE29EBEE6C00880160 /* RyfWeatherUITestsLaunchTests.swift */; };
 		CD64861F29EC025800CA6393 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD64861E29EC025800CA6393 /* Setting.swift */; };
+		CD92B79029EC0A4500DA81A3 /* WeatherNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD92B78F29EC0A4500DA81A3 /* WeatherNavigationController.swift */; };
+		CD92B79229EC0D5600DA81A3 /* AMap_citycode.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = CD92B79129EC0D5500DA81A3 /* AMap_citycode.xlsx */; };
 		CDB4D6BA29EBFDE0003DE81E /* WeatherListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB4D6B929EBFDE0003DE81E /* WeatherListController.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +58,8 @@
 		CD4C08BC29EBEE6C00880160 /* RyfWeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RyfWeatherUITests.swift; sourceTree = "<group>"; };
 		CD4C08BE29EBEE6C00880160 /* RyfWeatherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RyfWeatherUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		CD64861E29EC025800CA6393 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		CD92B78F29EC0A4500DA81A3 /* WeatherNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNavigationController.swift; sourceTree = "<group>"; };
+		CD92B79129EC0D5500DA81A3 /* AMap_citycode.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = AMap_citycode.xlsx; sourceTree = "<group>"; };
 		CDB4D6B929EBFDE0003DE81E /* WeatherListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherListController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,7 +103,6 @@
 				423EB69238CE0F8DE032BD08 /* Pods-RyfWeather.debug.xcconfig */,
 				382C5A036A825E7737B0D371 /* Pods-RyfWeather.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -133,7 +136,9 @@
 				CD64861E29EC025800CA6393 /* Setting.swift */,
 				CD4C089F29EBEE6800880160 /* ViewController.swift */,
 				CDB4D6B929EBFDE0003DE81E /* WeatherListController.swift */,
+				CD92B78F29EC0A4500DA81A3 /* WeatherNavigationController.swift */,
 				CD4C08A129EBEE6800880160 /* Main.storyboard */,
+				CD92B79129EC0D5500DA81A3 /* AMap_citycode.xlsx */,
 				CD4C08A429EBEE6C00880160 /* Assets.xcassets */,
 				CD4C08A629EBEE6C00880160 /* LaunchScreen.storyboard */,
 				CD4C08A929EBEE6C00880160 /* Info.plist */,
@@ -264,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD4C08A829EBEE6C00880160 /* LaunchScreen.storyboard in Resources */,
+				CD92B79229EC0D5600DA81A3 /* AMap_citycode.xlsx in Resources */,
 				CD4C08A529EBEE6C00880160 /* Assets.xcassets in Resources */,
 				CD4C08A329EBEE6800880160 /* Main.storyboard in Resources */,
 			);
@@ -320,6 +326,7 @@
 				CD4C089C29EBEE6800880160 /* AppDelegate.swift in Sources */,
 				CDB4D6BA29EBFDE0003DE81E /* WeatherListController.swift in Sources */,
 				CD4C089E29EBEE6800880160 /* SceneDelegate.swift in Sources */,
+				CD92B79029EC0A4500DA81A3 /* WeatherNavigationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
