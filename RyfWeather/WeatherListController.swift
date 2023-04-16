@@ -27,6 +27,7 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
         view.register(WeatherItemCell.self, forCellReuseIdentifier: "WeatherItemCell")
         view.delegate = self
         view.dataSource = self
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -170,7 +171,6 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
         
     }
     
-//    let queue = DispatchQueue.main
 
     
     func loadWeatherInfo(cityCode: String) -> Void {
@@ -230,6 +230,10 @@ extension WeatherListController: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.dataArray!.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100.0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

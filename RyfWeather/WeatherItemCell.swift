@@ -24,7 +24,7 @@ class WeatherItemCell: UITableViewCell {
         let label: UILabel = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textColor = UIColor.gray
-        label.frame = CGRect(x: 16, y: self.frame.size.height - 20, width: 100, height: 15)
+        label.frame = CGRect(x: 16, y: 70, width: 100, height: 15)
         return label
     }()
     
@@ -47,6 +47,7 @@ class WeatherItemCell: UITableViewCell {
     
     func initView()
     {
+        self.backgroundColor = .clear
         self.contentView.addSubview(self.cityName)
         self.contentView.addSubview(self.weatherDetailLabel)
         self.contentView.addSubview(self.temperatureLabel)
@@ -73,7 +74,7 @@ class WeatherItemCell: UITableViewCell {
         }
         
         if let temperature = self.model?.temperature {
-            self.temperatureLabel.text = temperature
+            self.temperatureLabel.text = temperature + "C"
         }
     }
     
