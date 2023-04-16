@@ -20,4 +20,18 @@ class WeatherModel: NSObject {
     var weather: String?
     var winddirection: String?
     var windpower: String?
+    
+    class func dictToModel(list:[String:AnyObject])->WeatherModel{
+        var model = WeatherModel(dict: list)
+        return model
+    }
+    
+    init(dict:[String:AnyObject]){
+        super.init()
+        self.adcode = dict["adcode"] as! String
+        self.city = dict["city"] as! String
+        self.temperature = dict["temperature"] as! String
+        self.weather = dict["weather"] as! String
+    }
+    
 }

@@ -47,14 +47,13 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
         // Do any additional setup after loading the view.
         self.navigationController?.isNavigationBarHidden = true
         loadXlsxFile()
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "main_background")!)
         self.view.addSubview(self.mainTable)
     }
     
     func loadXlsxFile() {
         self.dataArray = [WeatherModel]()
         self.cityCodes = [String]()
-//        self.search = AMapURLSearch()
-//        self.search
         
         let path: String = Bundle.main.path(forResource: "AMap_citycode", ofType: "xlsx") ?? ""
         
@@ -146,61 +145,82 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
         
         Task.init{
             do {
-                self.dataArray = try await multiWeatherInfoLoad(cityCodes: self.cityCodes!)
-            } catch {
-                
+                await multiWeatherInfoLoad(cityCodes: self.cityCodes!)//self.dataArray =
             }
         }
     }
     
-    func multiWeatherInfoLoad(cityCodes: [String]) async -> [WeatherModel] {
-        var results: [WeatherModel] = []
+    func multiWeatherInfoLoad(cityCodes: [String]) async -> Void {//[WeatherModel]
+//        var results: [WeatherModel] = []
         
-        await withTaskGroup(of: WeatherModel.self, body: { taskGroup in
+        await withTaskGroup(of: Void.self, body: { taskGroup in
             for item in cityCodes {
                 taskGroup.addTask {
-                    return await self.loadWeatherInfo(cityCode: item)
+                    await self.loadWeatherInfo(cityCode: item)
                 }
             }
             
-            for await result in taskGroup {
-                results.append(result)
-            }
+//            for await result in taskGroup {
+//                results.append(result)
+//            }
+            
         })
         
-        return results
+//        return results
+        
     }
     
+//    let queue = DispatchQueue.main
+
     
-    func loadWeatherInfo(cityCode: String) -> WeatherModel {
-        let model: WeatherModel? = WeatherModel()
+    func loadWeatherInfo(cityCode: String) -> Void {
+        var model: WeatherModel?
+        
         let url: String = String("\(WeatherReqUrl)city=\(cityCode)&key=\(GDKey)")
         var urlParam: NSString = NSString.init(string: url)
         urlParam = urlParam.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)! as NSString
-        let urlRequest: URLRequest = URLRequest(url: URL(string: urlParam as String)!)
-        let decoder = JSONDecoder()
-        Alamofire.request(urlRequest).responseJSON { response in
-            print("data is: \(String(describing: response.data))")
+        let session = URLSession.shared
+            // 构建请求request
+        var request = URLRequest(url: URL(string: urlParam as String)!)
+        request.httpMethod = "GET"
+        
+        
+        let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
             do {
-                let result: NSDictionary = try JSONSerialization.jsonObject(with: response.data!, options: .fragmentsAllowed) as! NSDictionary
+                guard let data = data, let _:URLResponse = response, error == nil else {
+                    print("error")
+                    return
+                }
+                let result: NSDictionary = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as! NSDictionary
                 let lives: NSArray = result["lives"] as! NSArray
-                if lives.count > 0 {
+                if lives.count > 0, (lives[0] as AnyObject).isKind(of: NSDictionary.self) {
                     let info: NSDictionary = lives[0] as! NSDictionary
-        //            model =
-        //
-                    model?.setValuesForKeys(info as! [String : Any])
+                    model = WeatherModel.dictToModel(list: info as! [String : AnyObject])
                     print("model.city is: \(String(describing: model?.city))")
                     print("=====")
+                    self.dataArray?.append(model!)
+                    if self.dataArray?.count == self.districts.count {
+                        DispatchQueue.main.async {
+                            self.mainTable.reloadData()
+                        }
+                    }
                 }
-                
-            } catch  {
+            }
+            catch {
                 
             }
-            
-            
         }
-        
-        return model!
+            
+        task.resume()
+    }
+    
+    func getDictionaryFromJSONString(jsonString:String) ->NSDictionary{
+        let jsonData:Data = jsonString.data(using: .utf8)!
+        let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
+        if dict != nil {
+            return dict as! NSDictionary
+        }
+        return NSDictionary()
     }
 
 }
@@ -209,11 +229,13 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
 extension WeatherListController: UITableViewDelegate, UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.districts.count
+        return self.dataArray!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: WeatherItemCell = tableView.dequeueReusableCell(withIdentifier: "WeatherItemCell", for: indexPath) as! WeatherItemCell
+        let model: WeatherModel = self.dataArray![indexPath.row]
+        cell.updateInfo(model: model)
         
         return cell
     }
