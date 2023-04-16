@@ -7,8 +7,17 @@
 
 import UIKit
 
+
 class WeatherModel: NSObject {
-    var cityName: String?
-    var weatherDetail: String?
+    var adcode: String?
+    var city: String?
+    var humidity: Int?
+    var humidity_float: Float?
+    var province: String?
+    var reporttime: String?
     var temperature: String?
+    var temperature_float: Float?
+    var weather: String?
+    var winddirection: String?
+    var windpower: String?
 }

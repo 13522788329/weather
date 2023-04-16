@@ -38,7 +38,7 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
 
     var dataArray: [WeatherModel]?
     var cityCodes: [String]?
-    
+//    var search: AMapURLSearch?
     
     
     override func viewDidLoad() {
@@ -53,6 +53,8 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
     func loadXlsxFile() {
         self.dataArray = [WeatherModel]()
         self.cityCodes = [String]()
+//        self.search = AMapURLSearch()
+//        self.search
         
         let path: String = Bundle.main.path(forResource: "AMap_citycode", ofType: "xlsx") ?? ""
         
@@ -119,10 +121,10 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
                             rowInfoDictionary?.cityName = rowText
                         }
                         else if columnText == "B" {
-                            rowInfoDictionary?.cCode = rowText
+                            rowInfoDictionary?.cityCode = rowText
                         }
                         else if columnText == "C" {
-                            rowInfoDictionary?.cityCode = rowText
+                            rowInfoDictionary?.cCode = rowText
                             rowInfoArray?.append(rowInfoDictionary!)
                         }
                     }
@@ -171,11 +173,31 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
     
     
     func loadWeatherInfo(cityCode: String) -> WeatherModel {
-        var model: WeatherModel? = WeatherModel()
+        let model: WeatherModel? = WeatherModel()
         let url: String = String("\(WeatherReqUrl)city=\(cityCode)&key=\(GDKey)")
-        
-        Alamofire.request(url).responseJSON { response in
-            print("data is: \(response.data)")
+        var urlParam: NSString = NSString.init(string: url)
+        urlParam = urlParam.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)! as NSString
+        let urlRequest: URLRequest = URLRequest(url: URL(string: urlParam as String)!)
+        let decoder = JSONDecoder()
+        Alamofire.request(urlRequest).responseJSON { response in
+            print("data is: \(String(describing: response.data))")
+            do {
+                let result: NSDictionary = try JSONSerialization.jsonObject(with: response.data!, options: .fragmentsAllowed) as! NSDictionary
+                let lives: NSArray = result["lives"] as! NSArray
+                if lives.count > 0 {
+                    let info: NSDictionary = lives[0] as! NSDictionary
+        //            model =
+        //
+                    model?.setValuesForKeys(info as! [String : Any])
+                    print("model.city is: \(String(describing: model?.city))")
+                    print("=====")
+                }
+                
+            } catch  {
+                
+            }
+            
+            
         }
         
         return model!

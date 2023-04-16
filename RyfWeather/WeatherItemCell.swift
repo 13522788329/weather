@@ -53,7 +53,9 @@ class WeatherItemCell: UITableViewCell {
         
         let publisher = self.cityName.publisher(for: \.text, options: NSKeyValueObservingOptions.new)
         
-        
+        publisher.sink { [weak self](text) in
+            
+        }
     }
     
     func updateInfo(model: WeatherModel) {
@@ -62,11 +64,11 @@ class WeatherItemCell: UITableViewCell {
     }
     
     func updateViews() {
-        if let city_name = self.model?.cityName {
+        if let city_name = self.model?.city {
             self.cityName.text = city_name
         }
         
-        if let weather_detail = self.model?.weatherDetail {
+        if let weather_detail = self.model?.weather {
             self.weatherDetailLabel.text = weather_detail
         }
         
