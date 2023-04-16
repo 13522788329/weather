@@ -147,6 +147,12 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
         Task.init{
             do {
                 await multiWeatherInfoLoad(cityCodes: self.cityCodes!)//self.dataArray =
+                self.dataArray.publisher.sink { value in
+                    print("dataArray value is: \(value)")
+                } receiveValue: { WeatherModel in
+                    print("WeatherModel value is: \(WeatherModel)")
+                }
+
             }
         }
     }
@@ -199,9 +205,12 @@ class WeatherListController: UIViewController, AMapLocationManagerDelegate, UIDo
                     print("model.city is: \(String(describing: model?.city))")
                     print("=====")
                     self.dataArray?.append(model!)
+
+                    
                     if self.dataArray?.count == self.districts.count {
                         DispatchQueue.main.async {
                             self.mainTable.reloadData()
+                            
                         }
                     }
                 }
@@ -244,7 +253,9 @@ extension WeatherListController: UITableViewDelegate, UITableViewDataSource
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
 }
 
 class RowInfoModel: NSObject {
