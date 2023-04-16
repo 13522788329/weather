@@ -53,9 +53,9 @@ class WeatherItemCell: UITableViewCell {
         self.contentView.addSubview(self.temperatureLabel)
         
         let publisher = self.cityName.publisher(for: \.text, options: NSKeyValueObservingOptions.new)
-        
+
         publisher.sink { [weak self](text) in
-            
+            self?.model?.city = self?.cityName.text
         }
     }
     
